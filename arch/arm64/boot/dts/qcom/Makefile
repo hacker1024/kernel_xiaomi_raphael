@@ -1,3 +1,5 @@
+ifneq ($(CONFIG_MACH_XIAOMI),y)
+
 # SPDX-License-Identifier: GPL-2.0
 ifeq ($(TARGET_BOARD_TYPE),auto)
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
@@ -521,6 +523,7 @@ endif
 
 
 endif
+endif # CONFIG_MACH_XIAOMI
 
 ifeq ($(CONFIG_ARM64),y)
 always		:= $(dtb-y)
