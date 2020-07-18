@@ -1,0 +1,30 @@
+/* Copyright (c) 2020, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#include "../common/xiaomi-sm8150-common.dtsi"
+
+#include "raphael-audio-overlay.dtsi"
+#include "raphael-battery-overlay.dtsi"
+#include "raphael-nfc-overlay.dtsi"
+#include "raphael-pinctrl-overlay.dtsi"
+#include "raphael-sm8150-camera-sensor.dtsi"
+#include "raphael-sm8150-camera-motor.dtsi"
+#include "raphael-sm8150-display.dtsi"
+#include "raphael-sm8150-fingerprint.dtsi"
+#include "raphael-sm8150-haptics.dtsi"
+#include "raphael-sm8150-pmic.dtsi"
+#include "raphael-sm8150-regulator.dtsi"
+#include "raphael-sm8150-thermal.dtsi"
+#include "raphael-sm8150-leds.dtsi"
+#include "raphael-sm8150-memory.dtsi"
+#include "raphael-sm8150-usb.dtsi"
+#include "raphael-sm8150-touchscreen.dtsi"

@@ -1,0 +1,69 @@
+/*
+ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&pm8150_l13 {
+	regulator-min-microvolt = <3000000>;
+	regulator-max-microvolt = <3000000>;
+	qcom,init-voltage = <3000000>;
+};
+
+&pm8150b_gpios {
+	otg_vbus_boost {
+		otg_vbus_boost_default: otg_vbus_boost_default {
+			pins = "gpio12";
+			function = "normal";
+			output-low;
+			power-source = <0>;
+		};
+	};
+
+	power_good {
+		/*Get the DC Power Good signal*/
+		power_good_default: power_good_default {
+			pins = "gpio7";
+			function = "normal";
+			qcom,drive-strength = <2>; /* 2 MA */
+			bias-disable;         /* NO pull */
+			power-source = <1>;
+			input-enable;
+		};
+	};
+};
+
+&soc {
+	touch_vddio_vreg: touch_vddio_vreg {
+		compatible = "regulator-fixed";
+		regulator-name = "disp_vddio_vreg";
+		startup-delay-us = <4000>;
+		enable-active-high;
+		regulator-boot-on;
+	 };
+
+	vdd_boost_vreg: vdd_boost_vreg {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd_boost_vreg";
+		startup-delay-us = <4000>;
+		enable-active-high;
+		regulator-always-on;
+		gpio = <&pm8150b_gpios 5 0>;
+	 };
+
+	disp_vci_vreg: disp_vci_vreg {
+		compatible = "regulator-fixed";
+		regulator-name = "disp_vci_vreg";
+		start-delay-us = <4000>;
+		enable-active-high;
+		regulator-boot-on;
+		gpio = <&tlmm 99 0>;
+	};
+};

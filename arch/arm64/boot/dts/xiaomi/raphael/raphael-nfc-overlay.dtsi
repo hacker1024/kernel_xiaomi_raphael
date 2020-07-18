@@ -1,0 +1,101 @@
+/* Copyright (c) 2020, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&nfc_int_active {
+	/* active state */
+	mux {
+		/* GPIO 47 NFC Read Interrupt */
+		pins = "gpio47";
+		function = "gpio";
+	};
+
+	config {
+		pins = "gpio47";
+		drive-strength = <2>; /* 2 MA */
+		bias-pull-up;
+	};
+};
+
+&nfc_int_suspend {
+	/* sleep state */
+	mux {
+		/* GPIO 47 NFC Read Interrupt */
+		pins = "gpio47";
+		function = "gpio";
+	};
+
+	config {
+		pins = "gpio47";
+		drive-strength = <2>; /* 2 MA */
+		bias-pull-up;
+	};
+};
+
+&nfc_enable_active {
+	/* active state */
+	mux {
+		/* 41: NFC ENABLE 42:ESE Enable */
+		pins = "gpio48", "gpio103";
+		function = "gpio";
+	};
+
+	config {
+		pins = "gpio48", "gpio103";
+		drive-strength = <2>; /* 2 MA */
+		bias-pull-up;
+	};
+};
+
+&nfc_enable_suspend {
+	/* sleep state */
+	mux {
+		/* 41: NFC ENABLE 42:ESE Enable */
+		pins = "gpio48", "gpio103";
+		function = "gpio";
+	};
+
+	config {
+		pins = "gpio48", "gpio103";
+		drive-strength = <2>; /* 2 MA */
+		bias-disable;
+	};
+};
+
+&nfc_clk_req_active {
+	/* active state */
+	mux {
+		/* 113: NFC CLOCK REQUEST */
+		pins = "gpio113";
+		function = "gpio";
+	};
+
+	config {
+		pins = "gpio113";
+		drive-strength = <2>; /* 2 MA */
+		bias-pull-up;
+	};
+};
+
+&nfc_clk_req_suspend {
+	/* sleep state */
+	mux {
+		/* 113: NFC CLOCK REQUEST */
+		pins = "gpio113";
+		function = "gpio";
+	};
+
+	config {
+		pins = "gpio113";
+		drive-strength = <2>; /* 2 MA */
+		bias-disable;
+	};
+};

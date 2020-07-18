@@ -1,0 +1,108 @@
+/* Copyright (c) 2020, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&pm8150l_pwm {
+	status = "ok";
+};
+
+&qupv3_se4_i2c {
+	status = "ok";
+	fsa4480@42 {
+		status = "disabled";
+	};
+
+	akm09970: akm09970@c {
+		compatible = "akm,akm09970";
+		reg = <0xC>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <120 0>;
+		akm,gpio-reset = <&tlmm 11 0x00>;
+		akm,gpio-irq = <&tlmm 27 0x00>;
+		akm,measure-freq-hz = <100>;
+		vdd-supply = <&pm8150l_l8>;
+
+		pinctrl-names = "akm09970_gpio_active", "akm09970_gpio_suspend";
+		pinctrl-0 = <&akm_irq_active &akm_reset_active>;
+		pinctrl-1 = <&akm_irq_suspend &akm_reset_suspend>;
+		status = "ok";
+	};
+};
+
+&soc {
+	drv8846: ti,drv8846@0 {
+		cell-index = <0>;
+		reg = <0x00 0x00>;
+		compatible = "ti,drv8846";
+		pwms = <&pm8150l_pwm 1 1000000>;
+		motor,gpio-mode0 = <&tlmm 21 0x00>;
+		motor,gpio-mode1 = <&tlmm 33 0x00>;
+		motor,gpio-sleep = <&tlmm 35 0x00>;
+		motor,gpio-dir = <&tlmm 9 0x00>;
+		motor,gpio-pwren = <&tlmm 130 0x00>;
+
+		motor,rampup-pwm-period-ns = <625000>;
+		motor,rampup-duration-ms = <50>;
+		motor,high-pwm-period-ns = <52083>;
+		motor,high-duration-ms = <720>;
+		motor,rampdown-pwm-period-ns = <625000>;
+		motor,rampdown-duration-ms = <50>;
+		motor,step-mode = <2>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pwm_out_gpio10_default &motor_gpio_default>;
+		status = "ok";
+	};
+};
+
+&pm8150l_gpios {
+	pwm_out_gpio10 {
+		pwm_out_gpio10_default: pwm_out_gpio10_default {
+			pins = "gpio10";
+			function = "func1";
+			bias-disable;
+			power-source = <1>;
+			output-low;
+			qcom,drive-strength = <3>;
+			drive-push-pull;
+		};
+	};
+};
+
+&pm8150l_lpg {
+	qcom,lut-pattern-switch;
+	qcom,lut-patterns = <0 1 2 3 4 5 6 7 8 9 10 11 12 13
+				12 11 10 9 8 7 6 5 4 3 2 1 0>;
+	qcom,lut-patterns-camera = <0 1 3 5 8 10 12 15 18 22 26 32 38 44 50 60 72 82 90 96 98 99 100
+				99 98 96 90 82 72 60 50 44 38 32 26 22 18 15 12 10 8 5 3 1 0>;
+};
+
+&pwm_lpg2 {
+	qcom,lpg-chan-id = <2>;
+	qcom,ramp-step-ms = <70>;
+	qcom,ramp-pause-hi-count = <2>;
+	qcom,ramp-pause-lo-count = <30>;
+	qcom,ramp-low-index = <0>;
+	qcom,ramp-high-index = <26>;
+	qcom,ramp-from-low-to-high;
+	qcom,ramp-pattern-repeat;
+};
+
+&pwm_lpg3 {
+	qcom,lpg-chan-id = <3>;
+	qcom,ramp-step-ms = <70>;
+	qcom,ramp-pause-hi-count = <2>;
+	qcom,ramp-pause-lo-count = <30>;
+	qcom,ramp-low-index = <0>;
+	qcom,ramp-high-index = <26>;
+	qcom,ramp-from-low-to-high;
+	qcom,ramp-pattern-repeat;
+};

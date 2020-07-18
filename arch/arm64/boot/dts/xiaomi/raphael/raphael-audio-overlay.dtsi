@@ -1,0 +1,81 @@
+/*
+ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#include "../qcom-base/sm8150-audio-overlay.dtsi"
+
+&snd_9360 {
+	status = "disabled";
+};
+
+&fsa4480 {
+	status = "disabled";
+};
+
+&qupv3_se1_i2c {
+	status = "ok";
+	tfa98xx: tfa98xx@34 {
+		compatible = "nxp,tfa98xx";
+		reset-gpio = <&tlmm 59 0>;
+		irq-gpio = <&tlmm 141 0>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <141 0>;
+		interrupt-names = "smartpa_irq";
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&smartpa_int_active &smartpa_enable_active>;
+		pinctrl-1 = <&smartpa_int_suspend &smartpa_enable_suspend>;
+		reg = <0x34>;
+		status = "ok";
+	};
+};
+
+&snd_934x {
+	qcom,audio-routing =
+		"AIF4 VI", "MCLK",
+		"RX_BIAS", "MCLK",
+		"MADINPUT", "MCLK",
+		"hifi amp", "LINEOUT1",
+		"hifi amp", "LINEOUT2",
+		"AMIC1", "MIC BIAS1",
+		"MIC BIAS2", "Headset Mic",
+		"AMIC3", "MIC BIAS3",
+		"MIC BIAS3", "ANCRight Headset Mic",
+		"AMIC1", "MIC BIAS1",
+		"MIC BIAS1", "ANCLeft Headset Mic",
+		"AMIC4", "MIC BIAS1",
+		"MIC BIAS1", "ANCRight Headset Mic",
+		"AMIC5", "MIC BIAS4",
+		"MIC BIAS4", "Analog Mic5";
+
+	qcom,wsa-max-devs = <0>;
+	qcom,msm-mbhc-hphl-swh = <1>;
+	qcom,msm-mbhc-gnd-swh = <1>;
+	qcom,msm-mbhc-usbc-audio-supported = <0>;
+
+	pinctrl-names = "quat_mi2s_enable", "quat_mi2s_disable",
+			"quat_tdm_enable", "quat_tdm_disable";
+	pinctrl-0 = <&quat_mi2s_active &quat_mi2s_sd0_active
+					&quat_mi2s_sd1_active>;
+	pinctrl-1 = <&quat_mi2s_sleep &quat_mi2s_sd0_sleep
+					&quat_mi2s_sd1_sleep>;
+	pinctrl-2 = <&quat_tdm_active &quat_tdm_dout_active>;
+	pinctrl-3 = <&quat_tdm_sleep &quat_tdm_dout_sleep>;
+
+	/delete-property/ fsa4480-i2c-handle;
+};
+
+&wcd934x_cdc {
+	qcom,cdc-micbias1-mv = <2700>;
+	qcom,cdc-micbias3-mv = <2700>;
+	qcom,cdc-micbias4-mv = <2700>;
+};
+
